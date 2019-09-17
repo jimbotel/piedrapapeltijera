@@ -1,0 +1,250 @@
+[
+    {
+        "id": "87f4a097.d3d4d8",
+        "type": "tab",
+        "label": "entrena",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8976a306.c101a",
+        "type": "visual-recognition-util-v3",
+        "z": "87f4a097.d3d4d8",
+        "name": "",
+        "vr-service-endpoint": "https://gateway.watsonplatform.net/visual-recognition/api",
+        "image-feature": "createClassifier",
+        "x": 720,
+        "y": 620,
+        "wires": [
+            [
+                "f8d6105d.fdffc"
+            ]
+        ]
+    },
+    {
+        "id": "679bd009.e61fe8",
+        "type": "function",
+        "z": "87f4a097.d3d4d8",
+        "name": "parametros",
+        "func": "msg.params = {};\nmsg.params[\"name\"] = \"pipati\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "e4af163a.85bef"
+            ]
+        ]
+    },
+    {
+        "id": "26317b8e.d041e4",
+        "type": "inject",
+        "z": "87f4a097.d3d4d8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "679bd009.e61fe8"
+            ]
+        ]
+    },
+    {
+        "id": "f8d6105d.fdffc",
+        "type": "debug",
+        "z": "87f4a097.d3d4d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "result",
+        "x": 930,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e4af163a.85bef",
+        "type": "file in",
+        "z": "87f4a097.d3d4d8",
+        "name": "piedra",
+        "filename": "/home/pi/node-red-static/trainvisualreco/piedra.zip",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 280,
+        "y": 360,
+        "wires": [
+            [
+                "333eff21.9fd41"
+            ]
+        ]
+    },
+    {
+        "id": "c4a55e0.f1d50a",
+        "type": "file in",
+        "z": "87f4a097.d3d4d8",
+        "name": "papel",
+        "filename": "/home/pi/node-red-static/trainvisualreco/papel.zip",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 350,
+        "y": 420,
+        "wires": [
+            [
+                "624b4428.17e36c"
+            ]
+        ]
+    },
+    {
+        "id": "81885d5b.9b34f8",
+        "type": "file in",
+        "z": "87f4a097.d3d4d8",
+        "name": "tijera",
+        "filename": "/home/pi/node-red-static/trainvisualreco/tijera.zip",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 430,
+        "y": 480,
+        "wires": [
+            [
+                "2468d0a7.4030e8"
+            ]
+        ]
+    },
+    {
+        "id": "8a476c5.ae23d9",
+        "type": "file in",
+        "z": "87f4a097.d3d4d8",
+        "name": "negativos",
+        "filename": "/home/pi/node-red-static/trainvisualreco/negativos.zip",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 520,
+        "y": 540,
+        "wires": [
+            [
+                "4125b527.7363e4"
+            ]
+        ]
+    },
+    {
+        "id": "333eff21.9fd41",
+        "type": "change",
+        "z": "87f4a097.d3d4d8",
+        "name": "piedra",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.piedra_positive_examples",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "c4a55e0.f1d50a"
+            ]
+        ]
+    },
+    {
+        "id": "624b4428.17e36c",
+        "type": "change",
+        "z": "87f4a097.d3d4d8",
+        "name": "papel",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.papel_positive_examples",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 420,
+        "wires": [
+            [
+                "81885d5b.9b34f8"
+            ]
+        ]
+    },
+    {
+        "id": "2468d0a7.4030e8",
+        "type": "change",
+        "z": "87f4a097.d3d4d8",
+        "name": "tijera",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.tijera_positive_examples",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 480,
+        "wires": [
+            [
+                "8a476c5.ae23d9"
+            ]
+        ]
+    },
+    {
+        "id": "4125b527.7363e4",
+        "type": "change",
+        "z": "87f4a097.d3d4d8",
+        "name": "negativos",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.negative_examples",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 540,
+        "wires": [
+            [
+                "8976a306.c101a"
+            ]
+        ]
+    }
+]

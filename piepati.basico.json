@@ -1,0 +1,230 @@
+[
+    {
+        "id": "51bede4a.0368c8",
+        "type": "tab",
+        "label": "pipati pru1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "2a37b8bc.a55f9",
+        "type": "http in",
+        "z": "51bede4a.0368c8",
+        "name": "ppt",
+        "url": "/ppt",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 70,
+        "y": 280,
+        "wires": [
+            [
+                "2c9264b1.aaf3b4"
+            ]
+        ]
+    },
+    {
+        "id": "94c9f95f.9bf758",
+        "type": "template",
+        "z": "51bede4a.0368c8",
+        "name": "principal",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<h1>Vamos a jugar a Piedra, Papel o Tijera</h1>\n<br/>\n<H2>Reconozco: {{recognized}}</H2>\n<br/>\n<br/>\n<table style=\"width: 100%;\">\n    <tbody>\n        <tr>\n            <td style=\"width: 50%;\"><img src=\"/images/pipati.jpg\" style=\"height: 300px;\" class=\"fr-fic fr-dib\"></td>\n            <td style=\"width: 50%;\"><img src=\"/images/{{mychoice}}\" style=\"height: 300px;\" class=\"fr-fic fr-dib\"></td>\n        </tr>\n    </tbody>\n</table>\n",
+        "output": "str",
+        "x": 1140,
+        "y": 280,
+        "wires": [
+            [
+                "6f6dc611.22cb28"
+            ]
+        ]
+    },
+    {
+        "id": "6f6dc611.22cb28",
+        "type": "http response",
+        "z": "51bede4a.0368c8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1310,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "2c9264b1.aaf3b4",
+        "type": "tjbot-see",
+        "z": "51bede4a.0368c8",
+        "botId": "8e60734c.7ab4f8",
+        "mode": "takephoto",
+        "verticalFlip": false,
+        "horizontalFlip": false,
+        "width": 960,
+        "height": 720,
+        "name": "",
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "265994ae.d7626c"
+            ]
+        ]
+    },
+    {
+        "id": "e00f70c8.55b248",
+        "type": "exec",
+        "z": "51bede4a.0368c8",
+        "command": "mv ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "mueve archivo",
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "8376b981.509448"
+            ],
+            [],
+            [
+                "9ba8e128.8e6af"
+            ]
+        ]
+    },
+    {
+        "id": "265994ae.d7626c",
+        "type": "function",
+        "z": "51bede4a.0368c8",
+        "name": "a mover",
+        "func": "msg.payload = msg.filename + \" /home/pi/node-red-static/images/pipati.jpg\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "e00f70c8.55b248"
+            ]
+        ]
+    },
+    {
+        "id": "e9b4708.25bf89",
+        "type": "debug",
+        "z": "51bede4a.0368c8",
+        "name": "clasifica",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "result.images[0].classifiers[0]",
+        "x": 1080,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9ba8e128.8e6af",
+        "type": "debug",
+        "z": "51bede4a.0368c8",
+        "name": "return code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 890,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "7b6846c2.f10828",
+        "type": "visual-recognition-v3",
+        "z": "51bede4a.0368c8",
+        "name": "",
+        "vr-service-endpoint": "https://gateway.watsonplatform.net/visual-recognition/api",
+        "image-feature": "classifyImage",
+        "lang": "es",
+        "x": 830,
+        "y": 400,
+        "wires": [
+            [
+                "e9b4708.25bf89",
+                "84bbb568.0fb868"
+            ]
+        ]
+    },
+    {
+        "id": "962c98d2.bbcc58",
+        "type": "function",
+        "z": "51bede4a.0368c8",
+        "name": "clasifica",
+        "func": "msg.params={};\nmsg.params.detect_mode = \"classify\";\nmsg.params.classifier_ids = \"pipati_1318436549\";\n// 9341a241-f3c1-43f2-a5ab-93e0fe723b0a\"\nmsg.params.owners = \"me\";\n// msg.params[\"threshold\"] : A floating value (in string format) that specifies the minimum score a class must have to be displayed in the response (Optional)\nmsg.params.threshold = \"0.5\";\n// msg.params[\"accept_language\"] : Specifies the language of the output class names. Can be 'en' (English as default), 'es' (Spanish), 'ar' (Arabic) or 'ja' (Japanese). Classes for which no translation is available are omitted. \n    \nvar aMano = [\"piedra\",\"papel\",\"tijera\",\"tijera\",\"piedra\",\"papel\",\"papel\",\"tijera\",\"papel\",\"papel\",\"piedra\",\"tijera\",\"piedra\",\"papel\"];\ni=Math.floor(Math.random() * ((aMano.length -1) - 0 + 1) ) + 0;\nmsg.mychoice = 'ppt_' + aMano[i] + '.jpg';\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 400,
+        "wires": [
+            [
+                "7b6846c2.f10828"
+            ]
+        ]
+    },
+    {
+        "id": "8376b981.509448",
+        "type": "file in",
+        "z": "51bede4a.0368c8",
+        "name": "pipati.jpg",
+        "filename": "/home/pi/node-red-static/images/pipati.jpg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 490,
+        "y": 400,
+        "wires": [
+            [
+                "962c98d2.bbcc58"
+            ]
+        ]
+    },
+    {
+        "id": "84bbb568.0fb868",
+        "type": "function",
+        "z": "51bede4a.0368c8",
+        "name": "reconocido",
+        "func": "msg.recognized = msg.result.images[0].classifiers[0].classes[0].class;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1020,
+        "y": 340,
+        "wires": [
+            [
+                "94c9f95f.9bf758"
+            ]
+        ]
+    },
+    {
+        "id": "8e60734c.7ab4f8",
+        "type": "tjbot-config",
+        "z": "",
+        "botGender": "female",
+        "name": "Pipati",
+        "listen": "es-ES",
+        "speak": "es-ES",
+        "hasServo": true,
+        "hasLED": true,
+        "hasSpeaker": true,
+        "hasMicrophone": true,
+        "hasCamera": true,
+        "speakerDeviceId": "plughw:0,0",
+        "microphoneDeviceId": "plughw:1,0",
+        "aUrl": "https://gateway-lon.watsonplatform.net/assistant/api",
+        "taUrl": "https://gateway-lon.watsonplatform.net/tone-analyzer/api",
+        "ltUrl": "https://gateway-lon.watsonplatform.net/language-translator/api",
+        "sttUrl": "https://gateway-lon.watsonplatform.net/speech-to-text/api",
+        "ttsUrl": "https://gateway-lon.watsonplatform.net/text-to-speech/api",
+        "vrUrl": "https://gateway.watsonplatform.net/visual-recognition/api"
+    }
+]
