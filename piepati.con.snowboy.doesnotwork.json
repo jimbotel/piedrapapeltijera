@@ -1,0 +1,645 @@
+[
+    {
+        "id": "b55f2e65.366798",
+        "type": "tab",
+        "label": "PiedraPapelTijera",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ec210e89.da5f88",
+        "type": "http in",
+        "z": "b55f2e65.366798",
+        "name": "pipati",
+        "url": "/pipati",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "fc48e40a.0b87c8"
+            ]
+        ]
+    },
+    {
+        "id": "5eb4079b.340418",
+        "type": "exec",
+        "z": "b55f2e65.366798",
+        "command": "/usr/bin/aplay",
+        "addpay": false,
+        "append": "/home/pi/node-red-static/audio/ppt_hola.audio",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "bienvenida",
+        "x": 610,
+        "y": 80,
+        "wires": [
+            [
+                "2e178253.d35f6e"
+            ],
+            [
+                "2e178253.d35f6e"
+            ],
+            [
+                "2e178253.d35f6e"
+            ]
+        ]
+    },
+    {
+        "id": "3477d8.270ec828",
+        "type": "delay",
+        "z": "b55f2e65.366798",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "12",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "46d2b5e0.a66c7c",
+                "6d9ea0e9.20ade",
+                "56270294.d5c7bc"
+            ]
+        ]
+    },
+    {
+        "id": "56270294.d5c7bc",
+        "type": "tjbot-wave",
+        "z": "b55f2e65.366798",
+        "botId": "8e60734c.7ab4f8",
+        "motion": "wave",
+        "name": "Mover el brazo",
+        "x": 760,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2e178253.d35f6e",
+        "type": "debug",
+        "z": "b55f2e65.366798",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 810,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "6d9ea0e9.20ade",
+        "type": "switch",
+        "z": "b55f2e65.366798",
+        "name": "activa trigger",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 140,
+        "wires": [
+            [
+                "269a0b29.a6f274",
+                "d6246b20.063ab8"
+            ]
+        ]
+    },
+    {
+        "id": "632f5bc2.568234",
+        "type": "link in",
+        "z": "b55f2e65.366798",
+        "name": "hotword",
+        "links": [
+            "26a6ea1f.3fe8e6",
+            "c3893269.e679d"
+        ],
+        "x": 675,
+        "y": 300,
+        "wires": [
+            [
+                "46d2b5e0.a66c7c",
+                "6d9ea0e9.20ade"
+            ]
+        ]
+    },
+    {
+        "id": "46d2b5e0.a66c7c",
+        "type": "microPi",
+        "z": "b55f2e65.366798",
+        "name": "microPi",
+        "filename": "/dev/null",
+        "domain": "http://localhost:1880/getAudio",
+        "rate": "16000",
+        "bitwidth": "16",
+        "endian": "little",
+        "encoding": "signed-integer",
+        "channels": "1",
+        "silence": "4",
+        "debug": "false",
+        "mode": "",
+        "x": 920,
+        "y": 240,
+        "wires": [
+            [
+                "e029b064.f8763"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "2876576a.53d2b8",
+        "type": "change",
+        "z": "b55f2e65.366798",
+        "name": "para",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1070,
+        "y": 180,
+        "wires": [
+            [
+                "46d2b5e0.a66c7c",
+                "269a0b29.a6f274"
+            ]
+        ]
+    },
+    {
+        "id": "e029b064.f8763",
+        "type": "Snowboy",
+        "z": "b55f2e65.366798",
+        "name": "Hola",
+        "detectorFile": "/home/pi/.node-red/node_modules/snowboy/resources/common.res",
+        "models": [
+            {
+                "idxOutput": 0,
+                "nbOutputs": 1,
+                "hotwords": "",
+                "sensitivity": "",
+                "file": "/home/pi/misetup/para.el.flujo.pmdl"
+            },
+            {
+                "idxOutput": 1,
+                "nbOutputs": 1,
+                "hotwords": "",
+                "sensitivity": "",
+                "file": "/home/pi/misetup/piedrapapeltijera.pmdl"
+            }
+        ],
+        "multipleOutput": "true",
+        "debug": "false",
+        "x": 1070,
+        "y": 240,
+        "wires": [
+            [
+                "2876576a.53d2b8",
+                "72eb17a8.754c38",
+                "7426b4c0.c8814c"
+            ],
+            [
+                "2876576a.53d2b8",
+                "5f5a2f31.ae791"
+            ]
+        ]
+    },
+    {
+        "id": "269a0b29.a6f274",
+        "type": "trigger",
+        "z": "b55f2e65.366798",
+        "op1": "",
+        "op2": "true",
+        "op1type": "nul",
+        "op2type": "bool",
+        "duration": "10",
+        "extend": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "name": "luz intermitente",
+        "x": 1160,
+        "y": 120,
+        "wires": [
+            [
+                "e1d82546.a9f1d8",
+                "d6246b20.063ab8",
+                "476d0cfe.84bcc4"
+            ]
+        ]
+    },
+    {
+        "id": "e1d82546.a9f1d8",
+        "type": "delay",
+        "z": "b55f2e65.366798",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1160,
+        "y": 60,
+        "wires": [
+            [
+                "269a0b29.a6f274"
+            ]
+        ]
+    },
+    {
+        "id": "476d0cfe.84bcc4",
+        "type": "debug",
+        "z": "b55f2e65.366798",
+        "name": "led intermitente",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1380,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d6246b20.063ab8",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "limpia",
+        "func": "var newmsg = {};\nmsg = newmsg;\nmsg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1350,
+        "y": 140,
+        "wires": [
+            [
+                "e707ecad.fc2e7"
+            ]
+        ]
+    },
+    {
+        "id": "e707ecad.fc2e7",
+        "type": "tjbot-shine",
+        "z": "b55f2e65.366798",
+        "botId": "8e60734c.7ab4f8",
+        "mode": "pulse",
+        "color": "blue",
+        "duration": "1.5",
+        "name": "Pulso",
+        "x": 1490,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7426b4c0.c8814c",
+        "type": "exec",
+        "z": "b55f2e65.366798",
+        "command": "/usr/bin/aplay",
+        "addpay": false,
+        "append": " /home/pi/audio/parandoelflujo.wav",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "parando",
+        "x": 1320,
+        "y": 200,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "72eb17a8.754c38",
+        "type": "debug",
+        "z": "b55f2e65.366798",
+        "name": "vacio",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1370,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "fc48e40a.0b87c8",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "detecta hotword",
+        "func": "msg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 200,
+        "wires": [
+            [
+                "3477d8.270ec828",
+                "5eb4079b.340418"
+            ]
+        ]
+    },
+    {
+        "id": "bec31092.6f07a",
+        "type": "inject",
+        "z": "b55f2e65.366798",
+        "name": "Desactiva deteccion de hotword",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 490,
+        "y": 240,
+        "wires": [
+            [
+                "2876576a.53d2b8"
+            ]
+        ]
+    },
+    {
+        "id": "e32b16d2.674ed8",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "activa hotword",
+        "func": "msg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1360,
+        "y": 440,
+        "wires": [
+            [
+                "c3893269.e679d"
+            ]
+        ]
+    },
+    {
+        "id": "c3893269.e679d",
+        "type": "link out",
+        "z": "b55f2e65.366798",
+        "name": "a hotword",
+        "links": [
+            "c221b4d8.5cd338",
+            "632f5bc2.568234"
+        ],
+        "x": 1555,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c9c63e0.e806fc",
+        "type": "comment",
+        "z": "b55f2e65.366798",
+        "name": "parada manual",
+        "info": "",
+        "x": 420,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5f5a2f31.ae791",
+        "type": "tjbot-see",
+        "z": "b55f2e65.366798",
+        "botId": "8e60734c.7ab4f8",
+        "mode": "takephoto",
+        "verticalFlip": false,
+        "horizontalFlip": false,
+        "width": 960,
+        "height": 720,
+        "name": "",
+        "x": 430,
+        "y": 520,
+        "wires": [
+            [
+                "d6067f27.17a35"
+            ]
+        ]
+    },
+    {
+        "id": "d6067f27.17a35",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "a mover",
+        "func": "msg.payload = msg.filename + \" /home/pi/node-red-static/images/pipati.jpg\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 520,
+        "wires": [
+            [
+                "4c2012a5.c229fc"
+            ]
+        ]
+    },
+    {
+        "id": "4c2012a5.c229fc",
+        "type": "exec",
+        "z": "b55f2e65.366798",
+        "command": "mv ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "mueve archivo",
+        "x": 780,
+        "y": 520,
+        "wires": [
+            [
+                "78119e14.6dedf"
+            ],
+            [],
+            [
+                "db498f65.163dd"
+            ]
+        ]
+    },
+    {
+        "id": "78119e14.6dedf",
+        "type": "file in",
+        "z": "b55f2e65.366798",
+        "name": "pipati.jpg",
+        "filename": "/home/pi/node-red-static/images/pipati.jpg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 670,
+        "y": 640,
+        "wires": [
+            [
+                "2c090171.bfbf6e"
+            ]
+        ]
+    },
+    {
+        "id": "db498f65.163dd",
+        "type": "debug",
+        "z": "b55f2e65.366798",
+        "name": "return code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1070,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "2c090171.bfbf6e",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "clasifica",
+        "func": "msg.params={};\nmsg.params.detect_mode = \"classify\";\nmsg.params.classifier_ids = \"pipati_1318436549\";\n// 9341a241-f3c1-43f2-a5ab-93e0fe723b0a\"\nmsg.params.owners = \"me\";\n// msg.params[\"threshold\"] : A floating value (in string format) that specifies the minimum score a class must have to be displayed in the response (Optional)\nmsg.params.threshold = \"0.5\";\n// msg.params[\"accept_language\"] : Specifies the language of the output class names. Can be 'en' (English as default), 'es' (Spanish), 'ar' (Arabic) or 'ja' (Japanese). Classes for which no translation is available are omitted. \n    \nvar aMano = [\"piedra\",\"papel\",\"tijera\",\"tijera\",\"piedra\",\"papel\",\"papel\",\"tijera\",\"papel\",\"papel\",\"piedra\",\"tijera\",\"piedra\",\"papel\"];\ni=Math.floor(Math.random() * ((aMano.length -1) - 0 + 1) ) + 0;\nmsg.mychoice = 'ppt_' + aMano[i] + '.jpg';\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 830,
+        "y": 640,
+        "wires": [
+            [
+                "e49b5d13.4d83d"
+            ]
+        ]
+    },
+    {
+        "id": "e49b5d13.4d83d",
+        "type": "visual-recognition-v3",
+        "z": "b55f2e65.366798",
+        "name": "",
+        "vr-service-endpoint": "https://gateway.watsonplatform.net/visual-recognition/api",
+        "image-feature": "classifyImage",
+        "lang": "es",
+        "x": 1010,
+        "y": 640,
+        "wires": [
+            [
+                "4194ef5e.88d46",
+                "9ed55aa.ae01fa8"
+            ]
+        ]
+    },
+    {
+        "id": "4194ef5e.88d46",
+        "type": "debug",
+        "z": "b55f2e65.366798",
+        "name": "clasifica",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "result.images[0].classifiers[0]",
+        "x": 1260,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "9ed55aa.ae01fa8",
+        "type": "function",
+        "z": "b55f2e65.366798",
+        "name": "reconocido",
+        "func": "msg.recognized = msg.result.images[0].classifiers[0].classes[0].class;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1200,
+        "y": 580,
+        "wires": [
+            [
+                "78af2c60.ed66a4"
+            ]
+        ]
+    },
+    {
+        "id": "78af2c60.ed66a4",
+        "type": "template",
+        "z": "b55f2e65.366798",
+        "name": "principal",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<h1>Vamos a jugar a Piedra, Papel o Tijera</h1>\n<br/>\n<H2>Reconozco: {{recognized}}</H2>\n<br/>\n<br/>\n<table style=\"width: 100%;\">\n    <tbody>\n        <tr>\n            <td style=\"width: 50%;\"><img src=\"/images/pipati.jpg\" style=\"height: 300px;\" class=\"fr-fic fr-dib\"></td>\n            <td style=\"width: 50%;\"><img src=\"/images/{{mychoice}}\" style=\"height: 300px;\" class=\"fr-fic fr-dib\"></td>\n        </tr>\n    </tbody>\n</table>\n",
+        "output": "str",
+        "x": 1320,
+        "y": 520,
+        "wires": [
+            [
+                "2ea49680.b233aa",
+                "e32b16d2.674ed8"
+            ]
+        ]
+    },
+    {
+        "id": "2ea49680.b233aa",
+        "type": "http response",
+        "z": "b55f2e65.366798",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1490,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "8e60734c.7ab4f8",
+        "type": "tjbot-config",
+        "z": "",
+        "botGender": "female",
+        "name": "Pipati",
+        "listen": "es-ES",
+        "speak": "es-ES",
+        "hasServo": true,
+        "hasLED": true,
+        "hasSpeaker": true,
+        "hasMicrophone": true,
+        "hasCamera": true,
+        "speakerDeviceId": "plughw:0,0",
+        "microphoneDeviceId": "plughw:1,0",
+        "aUrl": "https://gateway-lon.watsonplatform.net/assistant/api",
+        "taUrl": "https://gateway-lon.watsonplatform.net/tone-analyzer/api",
+        "ltUrl": "https://gateway-lon.watsonplatform.net/language-translator/api",
+        "sttUrl": "https://gateway-lon.watsonplatform.net/speech-to-text/api",
+        "ttsUrl": "https://gateway-lon.watsonplatform.net/text-to-speech/api",
+        "vrUrl": "https://gateway.watsonplatform.net/visual-recognition/api"
+    }
+]
